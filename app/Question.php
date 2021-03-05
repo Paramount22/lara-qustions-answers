@@ -17,11 +17,22 @@ class Question extends Model
         return $this->belongsTo('App\User');
     }
 
-    /*mutator*/
-
+    /*MUTATOR*/
+    /**
+     * @param $value
+     */
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug('title');
+    }
+
+    /*ACCSESOR*/
+    /**
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return route('questions.show', $this->id);
     }
 }
