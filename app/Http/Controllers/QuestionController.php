@@ -50,15 +50,15 @@ class QuestionController extends Controller
         return redirect()->route('questions.index')->with('success', 'Questions added.');
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Question $question
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Question $question)
     {
-        //
+        $question->increment('views');
+        return view('questions.show', compact('question'));
     }
 
     /**
@@ -67,9 +67,9 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $question = Question::findOrFail($id);
+        $question = Question::whereSlug($slug)->firstOrFail();
 
         return view('questions.edit', compact('question'));
     }
@@ -80,22 +80,24 @@ class QuestionController extends Controller
      * @param Question $question
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
         ]);
+
+        $question = Question::whereSlug($id)->firstOrFail();
         $question->update( $request->all() );
-        $question->save();
 
         return redirect()->route('questions.index')->with('success', 'Questions updated.');
 
     }
 
 
-    public function destroy(Question $question)
+    public function destroy($lug)
     {
+        $question = Question::whereSlug($lug)->firstOrFail();
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Questions deleted.');
     }

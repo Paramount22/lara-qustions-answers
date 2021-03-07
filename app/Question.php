@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 class Question extends Model
 {
-    protected $fillable = ['title', 'body'];
 
-    /**
+    protected $fillable = ['title', 'body', 'slug'];
+
+          /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -36,6 +37,9 @@ class Question extends Model
         return route('questions.show', $this->id);
     }
 
+    /**
+     * @return string
+     */
     public function getStatusAttribute()
     {
         if( $this->answers > 0 ) {
@@ -45,5 +49,10 @@ class Question extends Model
             return "answered";
         }
         return "unanswered";
+    }
+
+    public function getBodyHtmlAttribute()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }

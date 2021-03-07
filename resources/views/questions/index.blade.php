@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
@@ -39,15 +39,16 @@
                                 <div class="media-body">
                                     <div class="d-flex align-items-center">
                                         <h4 class="mt-0">
-                                            <a href="{{route('questions.show', $question)}}">
+                                            <a href="{{route('questions.show', $question->slug)}}">
                                                 {{$question->title}}
                                             </a>
                                         </h4>
                                         <div class="ml-auto">
-                                            <a href="{{route('questions.edit', $question->id)}}" class="btn
+                                            <a href="{{route('questions.edit', $question->slug)}}" class="btn
                                             btn-outline-info btn-sm">Edit</a>
 
-                                            <form class="d-inline" action="{{route('questions.destroy', $question->id)}}"
+                                            <form class="d-inline" action="{{route('questions.destroy',
+                                            $question->slug)}}"
                                                   method="post" >
                                                @csrf
                                                 @method('delete')
