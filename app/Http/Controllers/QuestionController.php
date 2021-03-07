@@ -74,12 +74,11 @@ class QuestionController extends Controller
         return view('questions.edit', compact('question'));
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Question $question)
     {
@@ -94,14 +93,10 @@ class QuestionController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect()->route('questions.index')->with('success', 'Questions deleted.');
     }
 }
