@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AskQuestionReqest;
 use App\Question;
 use Illuminate\Http\Request;
 
@@ -38,7 +39,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+        ]);
+
+        // priamo do userovych questions vytvorime dalsi question, vdaka vztahom v user modely (hasMany)
+        auth()->user()->questions()->create( $request->all() );
+
+        return redirect()->route('questions.index')->with('success', 'Questions added.');
     }
 
     /**
