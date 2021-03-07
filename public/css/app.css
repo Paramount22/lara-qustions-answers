@@ -10942,3 +10942,34 @@ a.text-dark:focus {
   }
 }
 
+.counters {
+  margin-right: 30px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.counters strong {
+  display: block;
+  font-size: 2rem;
+}
+
+.counters .vote,
+.counters .answer {
+  width: 80px;
+}
+
+.counters .status.unanswered {
+  border: none;
+}
+
+.counters .status.answered {
+  border: 1px solid #38c172;
+  border-radius: 0.3rem;
+  color: #38c172;
+}
+
+.counters .status.answered-accepted {
+  background: #38c172;
+  color: white;
+}
+

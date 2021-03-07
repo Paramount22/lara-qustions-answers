@@ -23,8 +23,8 @@ class Question extends Model
      */
     public function setTitleAttribute($value)
     {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = Str::slug('title');
+        $this->attributes['title'] = ucfirst($value);
+        $this->attributes['slug'] = Str::slug($value);
     }
 
     /*ACCSESOR*/
@@ -34,5 +34,16 @@ class Question extends Model
     public function getUrlAttribute()
     {
         return route('questions.show', $this->id);
+    }
+
+    public function getStatusAttribute()
+    {
+        if( $this->answers > 0 ) {
+            if($this->best_answer_id) {
+                return "answered-accepted";
+            }
+            return "answered";
+        }
+        return "unanswered";
     }
 }
