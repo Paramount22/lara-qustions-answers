@@ -8,10 +8,12 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                           <h2>All questions</h2>
+                            @if(auth()->user())
                             <div class="ml-auto">
                                 <a href="{{route('questions.create')}}"
                                    class="btn btn-outline-success">Ask question</a>
                             </div>
+                            @endif
                         </div>
 
                     </div>
@@ -44,24 +46,28 @@
                                             </a>
                                         </h4>
 
-                                        @can('edit-question', $question)
-                                            <div class="ml-auto">
-                                                <a href="{{route('questions.edit', $question->slug)}}" class="btn
-                                                btn-outline-info btn-sm">Edit</a>
 
-                                                <form class="d-inline" action="{{route('questions.destroy',
-                                                $question->slug)}}"
-                                                      method="post" >
-                                                   @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                        onclick="return confirm('Are you sure?')"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                            <div class="ml-auto">
+                                                @can('update', $question)
+                                                    <a href="{{route('questions.edit', $question->slug)}}" class="btn
+                                                    btn-outline-info btn-sm">Edit</a>
+                                                @endcan
+
+                                                @can('delete', $question)
+                                                    <form class="d-inline" action="{{route('questions.destroy',
+                                                    $question->slug)}}"
+                                                          method="post" >
+                                                       @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                            onclick="return confirm('Are you sure?')"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </div>
-                                        @endcan
+
                                     </div>
 
                                     <p class="lead">

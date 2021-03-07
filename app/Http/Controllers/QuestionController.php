@@ -10,7 +10,7 @@ class QuestionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('edit', 'store', 'update', 'destroy');
+        $this->middleware('auth')->only('edit', 'create', 'store', 'update', 'destroy');
     }
 
     /**
@@ -76,7 +76,7 @@ class QuestionController extends Controller
     {
         $question = Question::whereSlug($slug)->firstOrFail();
         // Authorization
-        $this->authorize('edit-question', $question);
+        $this->authorize('update', $question);
 
         return view('questions.edit', compact('question'));
     }
@@ -96,7 +96,7 @@ class QuestionController extends Controller
 
         $question = Question::whereSlug($id)->firstOrFail();
         // Authorization
-        $this->authorize('edit-question', $question);
+        $this->authorize('update', $question);
 
         $question->update( $request->all() );
 
@@ -109,7 +109,7 @@ class QuestionController extends Controller
     {
         $question = Question::whereSlug($lug)->firstOrFail();
         // Authorization
-        $this->authorize('edit-question', $question);
+        $this->authorize('delete', $question);
 
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Questions deleted.');
