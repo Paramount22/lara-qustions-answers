@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only('edit', 'store', 'update', 'destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,6 +75,8 @@ class QuestionController extends Controller
     public function edit($slug)
     {
         $question = Question::whereSlug($slug)->firstOrFail();
+        // Authorization
+        $this->authorize('edit-question', $question);
 
         return view('questions.edit', compact('question'));
     }
@@ -88,6 +95,9 @@ class QuestionController extends Controller
         ]);
 
         $question = Question::whereSlug($id)->firstOrFail();
+        // Authorization
+        $this->authorize('edit-question', $question);
+
         $question->update( $request->all() );
 
         return redirect()->route('questions.index')->with('success', 'Questions updated.');
@@ -98,6 +108,9 @@ class QuestionController extends Controller
     public function destroy($lug)
     {
         $question = Question::whereSlug($lug)->firstOrFail();
+        // Authorization
+        $this->authorize('edit-question', $question);
+
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Questions deleted.');
     }
