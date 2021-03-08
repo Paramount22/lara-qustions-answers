@@ -29,8 +29,8 @@
                                     </div>
 
                                     <div class="status answered {{$question->status}} mb-2">
-                                        <strong>{{$question->answers}}</strong>
-                                        {{Str::plural('answer', $question->answers)}}
+                                        <strong>{{$question->answers_count}}</strong>
+                                        {{Str::plural('answer', $question->answers_count)}}
                                     </div>
 
                                     <div class="view">
