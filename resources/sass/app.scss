@@ -7,6 +7,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
 .counters {
     margin-right: 30px;
     text-align: center;
@@ -40,4 +42,53 @@
         }
 
     }
+}
+
+.media {
+    img {
+        width: 35px;
+    }
+}
+
+.vote-controls {
+    text-align: center;
+    a {
+        color: $gray-700;
+        &.off, &.off:hover {
+            color: $gray-500;
+        }
+
+        &.favorite {
+            &.favorited, &.favorited:hover {
+                color: $warning;
+            }
+        }
+        &.vote-accepted {
+            color: $green;
+            &:hover {
+                color: $gray-700;
+            }
+        }
+
+    }
+
+    span {
+        &.votes-count {
+            font-size: 1.3rem;
+        }
+        &.favorites-count {
+            font-size: .7rem;
+        }
+    }
+
+}
+.time {
+
+    font-size: 1rem;
+}
+
+.author {
+    position: relative;
+    right: 0;
+    bottom: 0;
 }

@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <i class="fas fa-adjust fa-2x"></i>
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
