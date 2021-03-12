@@ -26,26 +26,63 @@
 
                             </a>
                         </div>
-                        <div class="media-body">
-                            {!! $answer->body !!}
-                            <time datetime="{{ $answer->created_at->toW3cString() }}"
-                                  class="text-muted float-right d-block mt-5 time">
-                                <small>
-                                    Answered    {{ $answer->created_at->diffForHumans() }}
-                                </small>
-                            </time>
 
-                            <div class="media mt-4">
-                                <a href="" class="pr-2">
-                                    <img src="{{$answer->user->avatar}}" alt="">
-                                </a>
-                                <div class="media-body pt-1">
-                                    <a href="">{{$answer->user->name}}</a>
+                        <div class="media-body">
+                            {!! $answer->body_html !!}
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <div class="media mt-4">
+                                        <a href="" class="pr-2">
+                                            <img src="{{$answer->user->avatar}}" alt="">
+                                        </a>
+                                        <div class="media-body pt-1">
+                                            <a href="">{{$answer->user->name}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <time datetime="{{ $answer->created_at->toW3cString() }}"
+                                          class="text-muted d-block mt-4 time">
+                                        <small>
+                                            Answered    {{ $answer->created_at->diffForHumans() }}
+                                        </small>
+                                    </time>
+                                </div>
+
+                                <div class="col-md-3 d-flex justify-content-end align-items-center">
+                                    <div class="d-flex">
+                                        @can('update', $answer)
+                                        <a href="{{route('questions.answers.edit',
+                                            [$question->id, $answer->id])}}"
+                                           class="btn btn-outline-info btn-sm mr-2">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                         @endcan
+                                        @can('delete', $answer)
+                                        <form class="d-inline" action="{{route('questions.answers.destroy',
+                                                    [$question->id, $answer->id])}}"
+                                              method="post" >
+                                            @csrf
+                                            @method('delete')
+                                            <a type="submit"  class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Are you sure?')"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </form>
+                                        @endcan
+                                    </div>
                                 </div>
                             </div>
 
+
+
+
                         </div>
                     </div>
+
+
 
                     <hr>
                 @endforeach
