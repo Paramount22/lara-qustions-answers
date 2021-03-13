@@ -23,10 +23,22 @@
                             <i class="fas fa-caret-down fa-3x"></i>
                         </a>
                         <a title="Click to mark as favorite question (Click again to undo)"
-                           class="mt-2 favorite favorited" href="">
+                           class="mt-2 favorite {{ auth()->guest() ? 'off' :
+                           ($question->is_favorited ? 'favorited' : '')
+                           }}"
+                           onclick="event.preventDefault();
+                               document.getElementById('favorite-question-{{$question->id}}').submit()"
+                        >
                             <i class="fas fa-star fa-2x"></i>
-                            <span class="favorites-count d-block">12</span>
+                            <span class="favorites-count d-block"> {{$question->favorites_count}} </span>
                         </a>
+                        <form action="/questions/{{$question->id}}/favorites"
+                              id="favorite-question-{{$question->id}}" method="post" class="accept-form">
+                            @csrf
+                            @if($question->is_favorited)
+                                @method('delete')
+                            @endif
+                        </form>
                     </div>
                     <div class="media-body">
                         {!! $question->body_html !!}

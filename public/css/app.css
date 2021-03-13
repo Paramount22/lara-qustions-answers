@@ -15599,6 +15599,14 @@ a.text-dark:focus {
   color: #adb5bd;
 }
 
+.vote-controls a.favorite {
+  cursor: pointer;
+}
+
+.vote-controls a.favorite:hover {
+  text-decoration: none;
+}
+
 .vote-controls a.favorite.favorited,
 .vote-controls a.favorite.favorited:hover {
   color: #f0ad4e;

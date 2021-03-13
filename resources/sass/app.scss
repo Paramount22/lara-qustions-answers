@@ -59,6 +59,10 @@
         }
 
         &.favorite {
+            cursor: pointer;
+            &:hover {
+                text-decoration: none;
+            }
             &.favorited, &.favorited:hover {
                 color: $warning;
             }

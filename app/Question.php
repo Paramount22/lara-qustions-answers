@@ -24,6 +24,31 @@ class Question extends Model
         return $this->hasMany('App\Answer');
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany('App\User', 'favorites',
+            'question_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFavorited()
+    {
+        return $this->favorites()->where('user_id', auth()->id())->count() > 0;
+    }
+
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
+    }
+
+    public function getFavoritesCountAttribute()
+    {
+        return $this->favorites->count();
+    }
+
+
     /**
      * Do stlpca best_answer_id priradime id konkretnej odpovede v tabulke questions
      */
