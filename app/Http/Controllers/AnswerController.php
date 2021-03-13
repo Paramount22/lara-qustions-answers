@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
 
     /**
@@ -50,7 +54,7 @@ class AnswerController extends Controller
         ]));
 
         return redirect()->route('questions.show', $question->slug)
-            ->with('succes', 'Your answer hase been updated');
+            ->with('succes', 'Your answer has been updated');
 
     }
 
@@ -60,8 +64,12 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question, Answer $answer)
     {
-        //
+        $this->authorize('delete', $answer);
+
+        $answer->delete();
+
+        return back()->with('Success', 'Your answer has been deleted.');
     }
 }

@@ -5,12 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+
 class Question extends Model
 {
 
     protected $fillable = ['title', 'body', 'slug'];
 
-          /**
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -21,6 +22,15 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany('App\Answer');
+    }
+
+    /**
+     * Do stlpca best_answer_id priradime id konkretnej odpovede v tabulke questions
+     */
+    public function acceptBestAnswer(Answer $ansver)
+    {
+        $this->best_answer_id = $ansver->id;
+        $this->save();
     }
 
     /*MUTATOR*/

@@ -20,11 +20,29 @@
                             <a href="" title="This question is not useful" class="vote-down off">
                                 <i class="fas fa-caret-down fa-3x"></i>
                             </a>
-                            <a title="Click to mark as favorite question (Click again to undo)"
-                               class="mt-2 vote-accepted favorited" href="">
-                                <i class="fas fa-check fa-2x"></i>
 
+                            @can('accept', $answer)
+                            <a data-toggle="tooltip" data-placement="top" title="Mark this answer as best answer"
+                               class="mt-2 {{ $answer->status  }}" href=""
+                               onclick="event.preventDefault();
+                               document.getElementById('accept-answer-{{$answer->id}}').submit()"
+                            >  <i class="fas fa-check fa-2x"></i>
                             </a>
+
+                            <form action="{{route('answers.accept', $answer->id)}}"
+                                  id="accept-answer-{{$answer->id}}" method="post" class="accept-form"
+                            >
+                                @csrf
+                            </form>
+                                @else
+                                    @if($answer->is_best)
+                                        <a data-toggle="tooltip" data-placement="top"
+                                           title="The question owner accepted this answer as best answer"
+                                           class="mt-2 {{ $answer->status  }}"
+                                        >  <i class="fas fa-check fa-2x"></i>
+                                        </a>
+                                    @endif
+                            @endcan
                         </div>
 
                         <div class="media-body">
@@ -65,11 +83,11 @@
                                               method="post" >
                                             @csrf
                                             @method('delete')
-                                            <a type="submit"  class="btn btn-outline-danger btn-sm"
+                                            <button type="submit"  class="btn btn-outline-danger btn-sm"
                                                 onclick="return confirm('Are you sure?')"
                                             >
                                                 <i class="fas fa-trash"></i>
-                                            </a>
+                                            </button>
                                         </form>
                                         @endcan
                                     </div>
