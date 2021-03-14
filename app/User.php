@@ -62,16 +62,27 @@ class User extends Authenticatable
             'user_id', 'question_id')->withTimestamps();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
     public function voteQuestions()
     {
         return $this->morphedByMany('App\Question', 'votable');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
     public function voteAnswers()
     {
         return $this->morphedByMany('App\Answer', 'votable');
     }
 
+    /**
+     * @param Question $question
+     * @param $vote
+     * Vote questions funcionality
+     */
     public function voteQuestion(Question $question, $vote)
     {
       $voteQuestions =  $this->voteQuestions();
@@ -89,6 +100,25 @@ class User extends Authenticatable
 
       $question->votes_count = $downVotes + $upVotes;
       $question->save();
+    }
+
+    public function voteAnswer(Answer $answer, $vote)
+    {
+        $voteAnswers =  $this->voteAnswers();
+        if($voteAnswers->where('votable_id', $answer->id)->exists())
+        {
+            $voteAnswers->updateExistingPivot($answer, ['vote' => $vote]);
+        }
+        else
+        {
+            $voteAnswers->attach($answer, ['vote' => $vote]);
+        }
+        $answer->load('votes');
+        $downVotes = (int) $answer->downVotes()->sum('vote');
+        $upVotes = (int) $answer->upVotes()->sum('vote');
+
+        $answer->votes_count = $downVotes + $upVotes;
+        $answer->save();
     }
 
     /**
