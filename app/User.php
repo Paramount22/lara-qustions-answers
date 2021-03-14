@@ -37,22 +37,63 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function questions()
     {
         return $this->hasMany('App\Question');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function answers()
     {
         return $this->hasMany('App\Answer');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function favorites()
     {
         return $this->belongsToMany('App\Question', 'favorites',
             'user_id', 'question_id')->withTimestamps();
     }
 
+    public function voteQuestions()
+    {
+        return $this->morphedByMany('App\Question', 'votable');
+    }
+
+    public function voteAnswers()
+    {
+        return $this->morphedByMany('App\Answer', 'votable');
+    }
+
+    public function voteQuestion(Question $question, $vote)
+    {
+      $voteQuestions =  $this->voteQuestions();
+      if($voteQuestions->where('votable_id', $question->id)->exists())
+      {
+          $voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
+      }
+      else
+      {
+          $voteQuestions->attach($question, ['vote' => $vote]);
+      }
+      $question->load('votes');
+      $downVotes = (int) $question->downVotes()->sum('vote');
+      $upVotes = (int) $question->upVotes()->sum('vote');
+
+      $question->votes_count = $downVotes + $upVotes;
+      $question->save();
+    }
+
+    /**
+     * @return string
+     */
     public function getAvatarAttribute()
     {
         $email = $this->email;

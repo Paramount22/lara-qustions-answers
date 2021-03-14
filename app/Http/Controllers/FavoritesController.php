@@ -12,6 +12,10 @@ class FavoritesController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Question $question)
     {
         $question->favorites()->attach(auth()->id());
@@ -19,6 +23,10 @@ class FavoritesController extends Controller
         return back();
     }
 
+    /**
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Question $question)
     {
         $question->favorites()->detach(auth()->id());

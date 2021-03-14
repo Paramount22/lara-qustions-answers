@@ -19,15 +19,29 @@ class Question extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function answers()
     {
         return $this->hasMany('App\Answer');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function favorites()
     {
         return $this->belongsToMany('App\User', 'favorites',
             'question_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function votes()
+    {
+        return $this->morphToMany('App\User', 'votable');
     }
 
     /**
@@ -38,11 +52,17 @@ class Question extends Model
         return $this->favorites()->where('user_id', auth()->id())->count() > 0;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsFavoritedAttribute()
     {
         return $this->isFavorited();
     }
 
+    /**
+     * @return mixed
+     */
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
@@ -94,5 +114,15 @@ class Question extends Model
     public function getBodyHtmlAttribute()
     {
         return \Parsedown::instance()->text($this->body);
+    }
+
+    public function upVotes()
+    {
+        return $this->votes()->wherePivot('vote', 1);
+    }
+
+    public function downVotes()
+    {
+       return $this->votes()->wherePivot('vote', -1);
     }
 }

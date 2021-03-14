@@ -24,6 +24,14 @@ class Answer extends Model
         return \Parsedown::instance()->text($this->body);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function votes()
+    {
+        return $this->morphToMany('App\User', 'votable');
+    }
+
     public static function boot()
     {
         parent::boot();

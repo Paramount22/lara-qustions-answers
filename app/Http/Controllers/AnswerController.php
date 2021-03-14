@@ -54,7 +54,7 @@ class AnswerController extends Controller
         ]));
 
         return redirect()->route('questions.show', $question->slug)
-            ->with('succes', 'Your answer has been updated');
+            ->with('success', 'Your answer has been updated');
 
     }
 
@@ -70,6 +70,6 @@ class AnswerController extends Controller
 
         $answer->delete();
 
-        return back()->with('Success', 'Your answer has been deleted.');
+        return back()->with('success', 'Your answer has been deleted.');
     }
 }

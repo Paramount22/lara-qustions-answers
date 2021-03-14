@@ -24,8 +24,8 @@
                             <div class="media mb-2">
                                 <div class="d-flex flex-column counters">
                                     <div class="vote mb-2">
-                                        <strong>{{$question->votes}}</strong>
-                                        {{Str::plural('vote', $question->votes)}}
+                                        <strong>{{$question->votes_count}}</strong>
+                                        {{Str::plural('vote', $question->votes_count)}}
                                     </div>
 
                                     <div class="status answered {{$question->status}} mb-2">
