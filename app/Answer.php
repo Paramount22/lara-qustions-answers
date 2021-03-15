@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use VotableTrait; // metody votes, upVotes, downVotes
+
     protected $fillable = ['body', 'user_id'];
 
     public function question()
@@ -24,29 +26,7 @@ class Answer extends Model
         return \Parsedown::instance()->text($this->body);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function votes()
-    {
-        return $this->morphToMany('App\User', 'votable');
-    }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', 1);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function downVotes()
-    {
-        return $this->votes()->wherePivot('vote', -1);
-    }
 
 
     public static function boot()

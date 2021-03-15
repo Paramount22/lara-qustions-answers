@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class Question extends Model
 {
+    use VotableTrait; // metody votes, upVotes, downVotes
 
     protected $fillable = ['title', 'body', 'slug'];
 
@@ -36,15 +37,7 @@ class Question extends Model
             'question_id', 'user_id')->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function votes()
-    {
-        return $this->morphToMany('App\User', 'votable');
-    }
-
-    /**
+     /**
      * @return bool
      */
     public function isFavorited()
@@ -116,13 +109,5 @@ class Question extends Model
         return \Parsedown::instance()->text($this->body);
     }
 
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', 1);
-    }
 
-    public function downVotes()
-    {
-       return $this->votes()->wherePivot('vote', -1);
-    }
 }
