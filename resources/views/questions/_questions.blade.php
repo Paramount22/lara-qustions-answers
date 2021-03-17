@@ -60,23 +60,13 @@
                     </div>
                     <div class="media-body">
                         {!! $question->body_html !!}
-                        <time datetime="{{ $question->created_at->toW3cString() }}"
-                              class="text-muted float-right d-block time">
-                            <small>
-                                {{ $question->created_at->diffForHumans() }}
-                            </small>
-                        </time>
-
-                        <div class="media">
-                            <a href="" class="pr-2">
-                                <img src="{{$question->user->avatar}}" alt="">
-                            </a>
-                            <div class="media-body pt-1">
-                                <a href="">{{$question->user->name}}</a>
-                            </div>
-                        </div>
+                        @include('shared._author', [
+                          'model' => $question,
+                           'label' => 'Asked'
+                            ])
 
                     </div>
+
                 </div>
 
             </div>
