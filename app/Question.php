@@ -81,6 +81,15 @@ class Question extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
+    /**
+     * @param $value
+     * clean funkcia a ocistenie vstupu od skodliveho kodu z kniznice purifier
+     */
+   /* public function setBodyAttribute($value)
+    {
+        $this->attributes['body'] = clean($value);
+    }*/
+
     /*ACCSESOR*/
     /**
      * @return string
@@ -104,7 +113,33 @@ class Question extends Model
         return "unanswered";
     }
 
+    /**
+     * @return mixed
+     * clean funkcia a ocistenie vystupu od skodliveho kodu z kniznice purifier
+     */
     public function getBodyHtmlAttribute()
+    {
+        return  clean($this->bodyHtml());
+    }
+
+    public function getExcerptAttribute()
+    {
+        return $this->excerpt(250);
+    }
+
+    /**
+     * @param $length
+     * @return string
+     */
+    private function excerpt($length)
+    {
+        return Str::limit( strip_tags( $this->bodyHtml() ), $length);
+    }
+
+    /**
+     * @return string
+     */
+    private function bodyHtml()
     {
         return \Parsedown::instance()->text($this->body);
     }
