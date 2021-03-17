@@ -11,35 +11,9 @@
                 @include('layouts._messages')
                 @foreach($question->answers as $answer)
                     <div class="media">
-                        <div class="d-flex flex-column vote-controls pr-4">
-                            <a href="" title="This answer is useful"
-                               class="vote-up {{ auth()->guest() ? 'off' : '' }}"
-                               onclick="event.preventDefault();
-                                   document.getElementById('up-votes-answer-{{$answer->id}}').submit()"
-                            >
-                                <i class="fas fa-caret-up fa-3x"></i>
-                            </a>
-                            <form action="/answers/{{$answer->id}}/vote"
-                                  id="up-votes-answer-{{$answer->id}}" method="post" class="accept-form">
-                                @csrf
-                                <input type="hidden" name="vote" value="1">
-                            </form>
-                            <span class="votes-count"> {{$answer->votes_count}} </span>
-
-                            <a href="" title="This answer is not useful"
-                               class="vote-down {{ auth()->guest() ? 'off' : '' }}"
-                               onclick="event.preventDefault();
-                                   document.getElementById('down-votes-answer-{{$answer->id}}').submit()"
-                            >
-                                <i class="fas fa-caret-down fa-3x"></i>
-                            </a>
-                            <form action="/answers/{{$answer->id}}/vote"
-                                  id="down-votes-answer-{{$answer->id}}" method="post" class="accept-form">
-                                @csrf
-                                <input type="hidden" name="vote" value="-1">
-                            </form>
-
-                        </div>
+                        @include('shared._vote', [
+                       'model' => $answer
+                   ])
 
                         <div class="media-body">
                             {!! $answer->body_html !!}
@@ -54,7 +28,7 @@
                                         @can('update', $answer)
                                         <a href="{{route('questions.answers.edit',
                                             [$question->id, $answer->id])}}"
-                                           class="btn btn-outline-info btn-sm mr-2 mt-1">
+                                           class="btn btn-outline-info btn-sm mr-2 edit">
                                             <i class="fas fa-pen"></i>
                                         </a>
                                          @endcan

@@ -15642,3 +15642,12 @@ a.text-dark:focus {
   display: none;
 }
 
+.fa-check {
+  cursor: pointer;
+}
+
+.edit {
+  position: relative;
+  top: 2px;
+}
+
