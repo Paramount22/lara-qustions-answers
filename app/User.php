@@ -37,6 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [ 'url', 'avatar' ];
+
     /**
      * @return string
      */
@@ -45,6 +47,15 @@ class User extends Authenticatable
         $email = $this->email;
         $size = 32;
         return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "&s=" . $size;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        // return route("questions.show", $this->id);
+        return '#';
     }
 
     /**

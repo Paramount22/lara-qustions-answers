@@ -12,6 +12,8 @@ class Question extends Model
 
     protected $fillable = ['title', 'body', 'slug'];
 
+    protected $appends = ['created_date', 'created_date_for_pc', 'is_favorited', 'favorites_count'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -100,6 +102,19 @@ class Question extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getCreatedDateAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getCreatedDateForPcAttribute()
+    {
+        return $this->created_at->toW3cString();
+    }
+
+    /**
      * @return string
      */
     public function getStatusAttribute()
@@ -122,6 +137,9 @@ class Question extends Model
         return  clean($this->bodyHtml());
     }
 
+    /**
+     * @return string
+     */
     public function getExcerptAttribute()
     {
         return $this->excerpt(250);

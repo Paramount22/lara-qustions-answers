@@ -1,4 +1,4 @@
-        <a title="Click to mark as favorite question (Click again to undo)"
+   <a title="Click to mark as favorite question (Click again to undo)"
            class="mt-2 favorite {{ auth()->guest() ? 'off' :
                                    ($model->is_favorited ? 'favorited' : '')
                                    }}"

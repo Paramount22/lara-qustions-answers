@@ -15646,10 +15646,10 @@ a.text-dark:focus {
   cursor: pointer;
 }
 
-.edit {
-  position: relative;
-  top: 2px;
-}
+/*.edit {
+    position: relative;
+    top: 2px;
+}*/
 
 .post {
   padding: 20px 0;
@@ -15657,5 +15657,9 @@ a.text-dark:focus {
 
 .post:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[v-cloak] {
+  display: none;
 }
 

@@ -105,14 +105,17 @@
     cursor: pointer;
 }
 
-.edit {
+/*.edit {
     position: relative;
     top: 2px;
-}
+}*/
 
 .post {
     padding: 20px 0;
     &:not(:last-child) {
         border-bottom: 1px solid rgba($black, .1);
     }
+}
+[v-cloak] {
+    display: none;
 }

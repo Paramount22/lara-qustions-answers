@@ -10,6 +10,10 @@ class Answer extends Model
 
     protected $fillable = ['body', 'user_id'];
 
+    // kvoli vue komponentu aby sme don data datumy z modela
+    protected $appends = ['created_date', 'created_date_for_pc', 'body_html', 'is_best'];
+
+
     public function question()
     {
         return $this->belongsTo('App\Question');
@@ -30,6 +34,16 @@ class Answer extends Model
     public function getBodyHtmlAttribute()
     {
         return clean(\Parsedown::instance()->text($this->body));
+    }
+
+    public function getCreatedDateAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getCreatedDateForPcAttribute()
+    {
+        return $this->created_at->toW3cString();
     }
 
 
