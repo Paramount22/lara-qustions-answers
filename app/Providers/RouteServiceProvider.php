@@ -22,7 +22,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -32,8 +32,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::bind('slug', function($slug) {
-           return  Question::with('answers.user', 'user')->where('slug', $slug)->firstOrFail();
-        });
+        return  Question::with('user')->where('slug', $slug)->firstOrFail();
+    });
 
         parent::boot();
     }

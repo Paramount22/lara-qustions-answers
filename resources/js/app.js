@@ -10,13 +10,14 @@ window.Vue = require('vue');
 
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import Authorization from './authorization/authorize';
 Vue.use(VueIziToast);
+Vue.use(Authorization);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-info', require('./components/UserInfo.vue').default);
-Vue.component('answer', require('./components/Answer.vue').default);
-Vue.component('favorite', require('./components/Favorite').default);
-Vue.component('accept', require('./components/Accept').default);
+Vue.component('answers', require('./components/Answers.vue').default);
+Vue.component('vote', require('./components/Vote').default);
+
 
 
 const app = new Vue({

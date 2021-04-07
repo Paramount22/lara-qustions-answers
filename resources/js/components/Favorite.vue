@@ -32,9 +32,9 @@
                 return `/questions/${this.id}/favorites`
             },
 
-            signedIn() {
+            /*signedIn() {
                 return window.Auth.signedIn;
-            }
+            }*/
         },
 
         methods: {

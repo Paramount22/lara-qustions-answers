@@ -1,5 +1,42 @@
 <template>
+    <div class="media post">
 
+        <vote :model="answer" name="answer"></vote>
+        <div class="media-body">
+            <form v-if="editing" @submit.prevent="update">
+                <div class="form-group">
+                    <label for="">Edit</label>
+                    <textarea name="" id="" v-model="body" class="form-control" required
+                              rows="5"></textarea>
+                </div>
+                <button class="btn btn-outline-success" :disabled="isInvalid">Update
+                </button>
+                <button @click="cancel" type="button" class="btn
+                btn-outline-secondary">Cancel</button>
+            </form>
+            <div v-if="!editing">
+                <div v-html="bodyHtml"></div>
+                    <user-info :model="answer" label="Answered"></user-info>
+
+                    <div class="col-md-3 d-flex justify-content-end align-items-center">
+                        <div class="d-flex">
+
+                            <a v-if="authorize('modify', answer)" href="" @click.prevent="edit"
+                               class="btn btn-outline-info btn-sm mr-2 edit">
+                                <i class="fas fa-pen"></i>
+                            </a>
+
+                            <button v-if="authorize('modify', answer)" class="btn btn-outline-danger btn-sm"
+                                    @click="destroy"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script>
